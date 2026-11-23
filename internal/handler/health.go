@@ -17,8 +17,7 @@ func NewHealth(svc service.Health) Health {
 	return &health{}
 }
 
-func (h *health) CheckHealth(c *gin.Context){
+func (h *health) CheckHealth(c *gin.Context) {
 	message, err := h.svc.CheckHealth()
 
 }
-
