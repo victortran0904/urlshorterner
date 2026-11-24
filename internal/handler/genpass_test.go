@@ -13,7 +13,7 @@ import (
 
 func Test_genPass_GeneratePassword(t *testing.T) {
 	testCases := []struct {
-		name string // description of this test case
+		name         string // description of this test case
 		setupMockSvc func(ctx context.Context) *genpass_svc_mocks.GenPass
 
 		expectedStatus   int
@@ -21,13 +21,13 @@ func Test_genPass_GeneratePassword(t *testing.T) {
 	}{
 		{
 			name: "normal case",
-			setupMockSvc: func(ctx context.Context) *genpass_svc_mocks.GenPass{
+			setupMockSvc: func(ctx context.Context) *genpass_svc_mocks.GenPass {
 				mockSvc := genpass_svc_mocks.NewGenPass(t)
 				mockSvc.On("GeneratePassword", DefaultLen).Return("password", nil)
 				return mockSvc
 			},
-			
-			expectedStatus: http.StatusOK,
+
+			expectedStatus:   http.StatusOK,
 			expectedResponse: `{"password":"password"}`,
 		},
 	}

@@ -36,7 +36,9 @@ func (e *engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 func (e *engine) initRoutes() {
 	genPassSvc := service.NewGenPass()
 	genPassHandler := handler.NewGenPass(genPassSvc)
-
 	e.app.GET("/genpass", genPassHandler.GeneratePassword)
 
+	healthCheckSvc := service.NewHealthCheck(e.cfg.ServiceName, e.cfg.InstanceID)
+	healthCheckHandler := handler.NewHealthCheck(healthCheckSvc)
+	e.app.GET("/health", healthCheckHandler.CheckHealth)
 }

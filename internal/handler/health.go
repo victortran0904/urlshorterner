@@ -1,23 +1,32 @@
 package handler
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/victortran0904/urlshortener/internal/service"
 )
 
-type Health interface {
+type HealthCheck interface {
 	CheckHealth(c *gin.Context)
 }
 
-type health struct {
-	svc service.Health
+type healthCheck struct {
+	svc service.HealthCheck
 }
 
-func NewHealth(svc service.Health) Health {
-	return &health{}
+func NewHealthCheck(svc service.HealthCheck) HealthCheck {
+	return &healthCheck{svc: svc}
 }
 
-func (h *health) CheckHealth(c *gin.Context) {
-	message, err := h.svc.CheckHealth()
+func (h *healthCheck) CheckHealth(c *gin.Context) {
+	body, err := h.svc.CheckHealth()
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+		return
+	}
+
+	c.JSON(http.StatusOK, body)
 
 }
