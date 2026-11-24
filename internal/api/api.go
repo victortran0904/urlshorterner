@@ -1,3 +1,4 @@
+// Package api configures and serves the health and password HTTP endpoints.
 package api
 
 import (
@@ -9,8 +10,11 @@ import (
 	"github.com/victortran0904/urlshortener/internal/service"
 )
 
+// Engine serves the API over HTTP.
 type Engine interface {
+	// Start serves HTTP on the configured application port and returns any server error.
 	Start() error
+	// ServeHTTP dispatches a request to the registered routes.
 	ServeHTTP(w http.ResponseWriter, req *http.Request)
 }
 
@@ -19,6 +23,8 @@ type engine struct {
 	cfg *Config
 }
 
+// NewEngine creates an engine with request logging, panic recovery, and GET routes
+// for /health and /genpass.
 func NewEngine(cfg *Config) Engine {
 	e := &engine{app: gin.Default(), cfg: cfg}
 	e.initRoutes()

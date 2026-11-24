@@ -1,3 +1,4 @@
+// Command api starts the HTTP API using environment configuration.
 package main
 
 import "github.com/victortran0904/urlshortener/internal/api"

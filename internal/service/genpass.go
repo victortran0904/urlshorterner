@@ -8,13 +8,18 @@ import (
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}<>?"
 
 //go:generate mockery --name=GenPass --filename genpass.go --outpkg mocks
+
+// GenPass generates passwords with cryptographically secure randomness.
 type GenPass interface {
+	// GeneratePassword returns a random password with the requested number of ASCII characters.
+	// The length must be nonnegative. Errors from the random source are returned.
 	GeneratePassword(length int) (string, error)
 }
 
 type genPass struct {
 }
 
+// NewGenPass creates a generator for passwords drawn from ASCII letters, digits, and symbols.
 func NewGenPass() GenPass {
 	return &genPass{}
 }
